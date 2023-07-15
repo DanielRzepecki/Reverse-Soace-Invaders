@@ -18,25 +18,36 @@ public class Projectile : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        if(transform.position.x == target.x && transform.position.y == target.y)
+        transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime); // projectile movement
+        if(transform.position.x == target.x && transform.position.y == target.y) // if projectile misses it destroys itsel
         {
             DestoryProjectile();
         }
     }
 
+    
+    
+  
 
-     void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
+
+
         if (other.CompareTag("Player"))
         {
+            HealthManager healthManager = other.GetComponent<HealthManager>();
+            if (healthManager != null )
+            {
+                healthManager.TakeDamage(1);
+            }
+
             DestoryProjectile();
         }
-       
 
+      
     }
 
     void DestoryProjectile()
